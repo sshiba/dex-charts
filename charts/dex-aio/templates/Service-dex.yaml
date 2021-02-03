@@ -1,0 +1,46 @@
+{{- define "Service-dex" -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "helpers.labels.fullname" . }}
+  labels: {{- include "helpers.labels.labels" . | nindent 4 }}
+spec:
+  # type: NodePort
+  # ports:
+  # - name: http
+  #   targetPort: http
+  #   port: {{ .Values.params.endpoints.port.http }}
+  #   nodePort: {{ .Values.params.endpoints.nodePort.http }}
+  #   protocol: TCP
+  # - name: https
+  #   targetPort: https
+  #   port: {{ .Values.params.endpoints.port.https }}
+  #   nodePort: {{ .Values.params.endpoints.nodePort.https }}
+  #   protocol: TCP
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: {{ .Values.params.endpoints.port.web }}
+    targetPort: {{ .Values.params.endpoints.port.http }}
+    protocol: TCP
+  - name: https
+    port: {{ .Values.params.endpoints.port.webs }}
+    targetPort: {{ .Values.params.endpoints.port.https }}
+    protocol: TCP
+  # type: NodePort
+  # ports:
+  # - name: http
+  #   targetPort: {{ .Values.params.endpoints.port.http }}
+  #   port: {{ .Values.params.endpoints.port.http }}
+  #   nodePort: {{ .Values.params.endpoints.nodePort.http }}
+  #   protocol: TCP
+  # - name: https
+  #   targetPort: {{ .Values.params.endpoints.port.https }}
+  #   port: {{ .Values.params.endpoints.port.https }}
+  #   nodePort: {{ .Values.params.endpoints.nodePort.https }}
+  #   protocol: TCP
+  selector: {{- include "helpers.labels.matchLabels" . | nindent 4 }}
+...
+{{- end -}}
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "Service-dex" ) }}
