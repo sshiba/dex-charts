@@ -127,11 +127,9 @@ config:
       error_log  /var/log/nginx/error.log warn;
       pid        /var/run/nginx.pid;
 
-
       events {
           worker_connections  1024;
       }
-
 
       http {
           include       /etc/nginx/mime.types;
@@ -154,39 +152,38 @@ config:
                   location / {  # the default location redirects to https
                       return 301 https://$server_name:{{ .Values.params.endpoints.port.https }}$request_uri;
                   }
-                  location = /ca.crt {
-                      alias /usr/share/nginx/html/ca.crt;
-                  }
+                  # location = /ca.crt {
+                  #     alias /usr/share/nginx/html/ca.crt;
+                  # }
               }
 
           server {
               listen              443 ssl;
               server_name         {{ .Values.params.endpoints.hostname }};
               absolute_redirect   off; #RFC 7231
-              ssl_certificate     /var/run/secrets/airshipit.org/tls/crt/tls.crt;
-              ssl_certificate_key /var/run/secrets/airshipit.org/tls/key/tls.key;
+              # ssl_certificate     /var/run/secrets/airshipit.org/tls/crt/tls.crt;
+              # ssl_certificate_key /var/run/secrets/airshipit.org/tls/key/tls.key;
 
               location = / {
                   return 301 /ui/;
               }
 
-              location = /ca.crt {
-                  alias /usr/share/nginx/html/ca.crt;
-              }
+              # location = /ca.crt {
+              #     alias /usr/share/nginx/html/ca.crt;
+              # }
 
               location /dex/ {
                   proxy_set_header Host $host;
                   proxy_set_header X-Real-IP $remote_addr;
                   proxy_pass https://127.0.0.1:{{ .Values.params.endpoints.port.https }}/dex/;
-                  proxy_ssl_trusted_certificate /usr/share/nginx/html/ca.crt;
+                  # proxy_ssl_trusted_certificate /usr/share/nginx/html/ca.crt;
               }
 
               location /ui/ {
                   proxy_set_header Host $host;
                   proxy_set_header X-Real-IP $remote_addr;
                   proxy_pass https://127.0.0.1:5555/ui/;
-                  proxy_ssl_trusted_certificate /usr/share/nginx/html/ca.crt;
+                  # proxy_ssl_trusted_certificate /usr/share/nginx/html/ca.crt;
               }
-
           }
       }
