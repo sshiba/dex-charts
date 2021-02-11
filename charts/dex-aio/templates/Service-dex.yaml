@@ -21,25 +21,15 @@ spec:
   type: LoadBalancer
   ports:
   - name: http
-    port: {{ .Values.params.endpoints.port.web }}
-    targetPort: {{ .Values.params.endpoints.port.http }}
+    port: {{ .Values.params.endpoints.port.http }}
+    nodePort: {{ .Values.params.endpoints.nodePort.http }}
+    targetPort: http
     protocol: TCP
   - name: https
-    port: {{ .Values.params.endpoints.port.webs }}
-    targetPort: {{ .Values.params.endpoints.port.https }}
+    port: {{ .Values.params.endpoints.port.https }}
+    nodePort: {{ .Values.params.endpoints.nodePort.https }}
+    targetPort: https
     protocol: TCP
-  # type: NodePort
-  # ports:
-  # - name: http
-  #   targetPort: {{ .Values.params.endpoints.port.http }}
-  #   port: {{ .Values.params.endpoints.port.http }}
-  #   nodePort: {{ .Values.params.endpoints.nodePort.http }}
-  #   protocol: TCP
-  # - name: https
-  #   targetPort: {{ .Values.params.endpoints.port.https }}
-  #   port: {{ .Values.params.endpoints.port.https }}
-  #   nodePort: {{ .Values.params.endpoints.nodePort.https }}
-  #   protocol: TCP
   selector: {{- include "helpers.labels.matchLabels" . | nindent 4 }}
 ...
 {{- end -}}
