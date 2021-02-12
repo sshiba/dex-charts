@@ -6,8 +6,7 @@ metadata:
   name: {{ template "helpers.labels.fullname" . }}
   labels: {{- include "helpers.labels.labels" . | nindent 4 }}
 spec:
-  # secretName: {{ template "helpers.labels.fullname" . }}-tls
-  secretName: {{ template "helpers.labels.fullname" . }}
+  secretName: {{ template "helpers.labels.fullname" . }}-tls
   issuerRef:
     name: {{ .Values.params.endpoints.tls.issuer.name }}
     # We can reference ClusterIssuers by changing the kind here.
