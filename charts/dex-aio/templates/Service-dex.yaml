@@ -6,17 +6,29 @@ metadata:
   name: {{ template "helpers.labels.fullname" . }}
   labels: {{- include "helpers.labels.labels" . | nindent 4 }}
 spec:
-  type: LoadBalancer
+  # type: NodePort
+  # ports:
+  # - name: http
+  #   targetPort: http
+  #   port: {{ .Values.params.endpoints.port.http }}
+  #   nodePort: {{ .Values.params.endpoints.nodePort.http }}
+  #   protocol: TCP
+  # - name: https
+  #   targetPort: https
+  #   port: {{ .Values.params.endpoints.port.https }}
+  #   nodePort: {{ .Values.params.endpoints.nodePort.https }}
+  #   protocol: TCP
+  type: NodePort
   ports:
   - name: http
+    targetPort: {{ .Values.params.endpoints.port.http }}
     port: {{ .Values.params.endpoints.port.http }}
     nodePort: {{ .Values.params.endpoints.nodePort.http }}
-    targetPort: 80
     protocol: TCP
   - name: https
+    targetPort: {{ .Values.params.endpoints.port.https }}
     port: {{ .Values.params.endpoints.port.https }}
     nodePort: {{ .Values.params.endpoints.nodePort.https }}
-    targetPort: 443
     protocol: TCP
   selector: {{- include "helpers.labels.matchLabels" . | nindent 4 }}
 ...

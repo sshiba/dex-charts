@@ -125,9 +125,11 @@ config:
       error_log  /var/log/nginx/error.log warn;
       pid        /var/run/nginx.pid;
 
+
       events {
           worker_connections  1024;
       }
+
 
       http {
           include       /etc/nginx/mime.types;
@@ -150,9 +152,9 @@ config:
                   location / {  # the default location redirects to https
                       return 301 https://$server_name:{{ .Values.params.endpoints.port.https }}$request_uri;
                   }
-                  # location = /ca.crt {
-                  #     alias /usr/share/nginx/html/ca.crt;
-                  # }
+                  location = /ca.crt {
+                      alias /usr/share/nginx/html/ca.crt;
+                  }
               }
 
           server {
@@ -183,5 +185,6 @@ config:
                   proxy_pass https://127.0.0.1:5555/ui/;
                   proxy_ssl_trusted_certificate /usr/share/nginx/html/ca.crt;
               }
+
           }
       }
