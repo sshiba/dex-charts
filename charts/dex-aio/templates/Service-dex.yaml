@@ -18,15 +18,15 @@ spec:
   #   port: {{ .Values.params.endpoints.port.https }}
   #   nodePort: {{ .Values.params.endpoints.nodePort.https }}
   #   protocol: TCP
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name: http
-    targetPort: {{ .Values.params.endpoints.port.http }}
+    targetPort: 80
     port: {{ .Values.params.endpoints.port.http }}
     nodePort: {{ .Values.params.endpoints.nodePort.http }}
     protocol: TCP
   - name: https
-    targetPort: {{ .Values.params.endpoints.port.https }}
+    targetPort: 443
     port: {{ .Values.params.endpoints.port.https }}
     nodePort: {{ .Values.params.endpoints.nodePort.https }}
     protocol: TCP
