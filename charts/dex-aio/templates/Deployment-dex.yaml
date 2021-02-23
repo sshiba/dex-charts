@@ -202,19 +202,19 @@ spec:
         secret:
           secretName: {{ template "helpers.labels.fullname" . }}-tls
           items:
-          - key: ca.crt
+          - key: ca-crt
             path: ca.crt
       - name: tls-crt
         secret:
           secretName: {{ template "helpers.labels.fullname" . }}-tls
           items:
-          - key: tls.crt
+          - key: tls-crt
             path: tls.crt
       - name: tls-key
         secret:
           secretName: {{ template "helpers.labels.fullname" . }}-tls
           items:
-          - key: tls.key
+          - key: tls-key
             path: tls.key
       {{- else }}
       - name: tls-ca-crt
