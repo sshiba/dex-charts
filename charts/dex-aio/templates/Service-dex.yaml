@@ -18,7 +18,7 @@ spec:
   #   port: {{ .Values.params.endpoints.port.https }}
   #   nodePort: {{ .Values.params.endpoints.nodePort.https }}
   #   protocol: TCP
-  type: LoadBalancer
+  type: {{ .Values.params.service.type }}
   ports:
   - name: http
     targetPort: 80
