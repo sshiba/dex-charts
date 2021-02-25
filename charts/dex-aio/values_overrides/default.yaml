@@ -1,15 +1,15 @@
 params:
-  site:
-    name: Jarvis
-  endpoints:
-    hostname: dex.jarvis.local
-    port:
-      k8s: 8443
+  # site:
+  #   name: Jarvis
+  # endpoints:
+  #   hostname: dex.jarvis.local
+  #   port:
+  #     k8s: 8443
     tls:
       cert_manager: true
       issuer:
-        name: jarvis-ca-issuer
+        name: dex-ca-issuer
         kind: ClusterIssuer
-  oidc:
-    client_id: jarvis-kubernetes
-    client_secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
+  # oidc:
+  #   client_id: jarvis-kubernetes
+  #   client_secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
