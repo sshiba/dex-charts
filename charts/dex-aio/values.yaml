@@ -69,7 +69,7 @@ over_rides:
 config:
   dex.yaml:
     # issuer: https://{{ .Values.params.endpoints.hostname }}:{{ .Values.params.endpoints.port.https }}/dex
-    issuer: {{ .Values.params.endpoints.issuer }}
+    issuer: {{ .Values.params.endpoints.issuer_url }}
     storage:
       type: kubernetes
       config:
