@@ -43,7 +43,8 @@ params:
     nodePort:
       https: 30556
       http: 30554
-    tls:
+    issuer_url: https://{{ .Values.params.endpoints.hostname }}:{{ .Values.params.endpoints.port.https }}/dex
+  tls:
       cert_manager: false
       issuer:
         name: workload-cluster-ca-issuer
@@ -51,6 +52,10 @@ params:
   oidc:
     client_id: my-cluster
     client_secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
+    username_claim: email
+    username_prefix: "oidc:"
+    groups_claim: groups
+    ca_file: /etc/kubernetes/certs/dex-cert
   ldap:
     bind_password: super-secure
 
@@ -63,7 +68,8 @@ over_rides:
 # advanced config below:
 config:
   dex.yaml:
-    issuer: https://{{ .Values.params.endpoints.hostname }}:{{ .Values.params.endpoints.port.https }}/dex
+    # issuer: https://{{ .Values.params.endpoints.hostname }}:{{ .Values.params.endpoints.port.https }}/dex
+    issuer: {{ .Values.params.endpoints.issuer }}
     storage:
       type: kubernetes
       config:
