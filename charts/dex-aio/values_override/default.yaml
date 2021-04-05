@@ -1,0 +1,13 @@
+
+params:
+  site:
+    name: Jarvis
+  endpoints:
+    hostname: dex.function.local
+    port:
+      https: 30556
+      http: 30554
+      k8s: 8443
+  oidc:
+    client_id: jarvis-kubernetes
+    client_secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
