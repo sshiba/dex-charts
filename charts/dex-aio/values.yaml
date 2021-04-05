@@ -32,19 +32,13 @@ node_labels:
 params:
   site:
     name: PDL1
-  service:
-    type: NodePort
   endpoints:
     hostname: vm-capi-docker.lan
     port:
       https: 5556
       http: 5554
       k8s: 6443
-    nodePort:
-      https: 30556
-      http: 30554
-    issuer_url: https://{{ .Values.params.endpoints.hostname }}:{{ .Values.params.endpoints.port.https }}/dex
-  tls:
+    tls:
       cert_manager: false
       issuer:
         name: workload-cluster-ca-issuer
@@ -52,10 +46,6 @@ params:
   oidc:
     client_id: my-cluster
     client_secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
-    username_claim: email
-    username_prefix: "oidc:"
-    groups_claim: groups
-    ca_file: /etc/kubernetes/certs/dex-cert
   ldap:
     bind_password: super-secure
 
@@ -68,8 +58,7 @@ over_rides:
 # advanced config below:
 config:
   dex.yaml:
-    # issuer: https://{{ .Values.params.endpoints.hostname }}:{{ .Values.params.endpoints.port.https }}/dex
-    issuer: {{ .Values.params.endpoints.issuer_url }}
+    issuer: https://{{ .Values.params.endpoints.hostname }}:{{ .Values.params.endpoints.port.https }}/dex
     storage:
       type: kubernetes
       config:
