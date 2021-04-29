@@ -47,7 +47,16 @@ params:
     client_id: my-cluster
     client_secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
   ldap:
-    bind_password: super-secure
+    bind_password: "super-secure"
+    name: ITTESTSERVICES
+    config:
+      host: ldap.test.com
+      port: 636
+      bind_dn: uuid@ldap.test.com
+      bind_pw_env: $LDAP_BINDPW
+      username_prompt: SSO Username
+      user_search:
+        base_dn: dc=testitservices,dc=atttest,dc=com
 
 over_rides:
   deployment:
@@ -84,6 +93,29 @@ config:
       - token
       - id_token
       skipApprovalScreen: true
+    connectors:
+    - type: ldap
+      name: "{{ .Values.params.ldap.name }}"
+      id: ldap
+      config:
+        # LDAPS without certificate validation:
+        host: "{{ .Values.params.ldap.config.host }}:{{ .Values.params.ldap.config.port }}"
+        insecureNoSSL: false
+        insecureSkipVerify: true
+        
+        bindDN: "{{ .Values.params.ldap.config.bind_dn }}"
+        bindPW: "${{ .Values.params.ldap.config.bind_pw_env }}"
+
+        # usernamePrompt: Email Address
+        usernamePrompt: "{{ .Values.params.ldap.config.username_prompt }}"
+
+        userSearch:
+          baseDN: "{{ .Values.params.ldap.config.user_search.base_dn }}"
+          filter: "(objectClass=person)"
+          username: cn
+          idAttr: cn
+          emailAttr: name
+          nameAttr: name
     staticClients:
     - id: "{{ .Values.params.oidc.client_id }}"
       name: "{{ .Values.params.site.name }}"
